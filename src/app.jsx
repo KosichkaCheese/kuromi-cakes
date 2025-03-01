@@ -2,11 +2,16 @@ import React, { useState } from "react";
 import styles from "./App.module.css";
 
 function Home({ navigate }) {
+    const [isHovered, setIsHovered] = useState(false);
+
     return (
         <div className={styles.home_bg}>
-            <h1 className={styles.title}>Тортики Куроми</h1>
-            <h2 className={styles.title}>Ешьте тортики</h2>
-            <button onClick={() => navigate("catalog")}>Перейти в каталог</button>
+            <div style={{ margintop: "2%", marginleft: "3%" }}><img width={"600px"} src="assets/Тортики Куроми.png"></img></div>
+            <div style={{ marginLeft: "auto", marginRight: "2%", marginTop: "-4%" }}><img width={"500px"} src="assets/Ешьте тортики.png"></img></div>
+            <div style={{ marginTop: "-4%", alignSelf: "center", marginLeft: "-5%" }}>
+                <img style={{ position: "relative", top: "-10px", left: "70px", rotate: "-20deg", scale: "1.3" }} src={isHovered ? "assets/kuromi2.png" : "assets/kuromi1.png"}></img>
+                <button className={styles.want_cake} onClick={() => navigate("catalog")} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>хочу тортик</button>
+            </div>
         </div>
     );
 }
