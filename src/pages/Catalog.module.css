@@ -1,0 +1,10 @@
+.catalog_bg {
+    background-position: center;
+    background-repeat: repeat;
+    background-color: black;
+    min-height: 100vh;
+    min-width: 100vw;
+    background-image: url("/assets/bg.jpg");
+    display: flex;
+    flex-direction: column;
+}

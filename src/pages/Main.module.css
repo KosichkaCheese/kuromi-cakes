@@ -1,0 +1,50 @@
+@font-face {
+    font-family: "Inter-Regular";
+    src: url(/assets/fonts/Inter_24pt-Regular.ttf);
+}
+
+.main_bg {
+    background-position: center;
+    background-repeat: repeat;
+    background-color: black;
+    min-height: 100vh;
+    min-width: 100vw;
+    background-image: url("/assets/bg.jpg");
+    display: flex;
+    flex-direction: column;
+    background-attachment: fixed;
+}
+
+.text {
+    color: #FFD6F3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2%;
+    font-family: "Inter-Regular";
+    /* -webkit-text-stroke: 3px #B15A98; */
+    text-shadow:
+        -3px -3px 0 #B15A98, 3px -3px 0 #B15A98,
+        -3px 3px 0 #B15A98, 3px 3px 0 #B15A98,
+        -3px 0px 0 #B15A98, 3px 0px 0 #B15A98,
+        0px -3px 0 #B15A98, 0px 3px 0 #B15A98;
+
+}
+
+.cakes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* flex-direction: row; */
+    justify-content: space-around;
+    margin-top: 3%;
+    /* height: 400px; */
+    /* background-color: white; */
+    width: 1300px;
+    align-self: center;
+}
+
+.cake {
+    background-color: #B71E8C;
+    width: 200px;
+    height: 350px;
+}

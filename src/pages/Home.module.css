@@ -1,0 +1,45 @@
+@font-face {
+    font-family: "Forum-Regular";
+    src: url(/assets/fonts/Forum-Regular.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.home_bg {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-color: black;
+    min-height: 100vh;
+    min-width: 100vw;
+    overflow: hidden;
+    background-image: url("/assets/home_bg.gif");
+    display: flex;
+    flex-direction: column;
+}
+
+.want_cake {
+    align-self: center;
+    margin-top: auto;
+    margin-bottom: 5%;
+    background-color: #B71E8C;
+    width: 450px;
+    height: 73px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: #CD4DA9 0px 0px 10.5px 13px;
+    color: white;
+    font-family: "forum-regular";
+    font-size: 43px;
+    text-shadow: 0px 0px 5px #FFD6F3;
+}
+
+.want_cake:hover {
+    cursor: pointer;
+    background-color: #e741b8;
+    box-shadow: #e874c7 0px 0px 10.5px 13px;
+}
