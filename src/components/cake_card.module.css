@@ -1,0 +1,56 @@
+@font-face {
+    font-family: "Inter-Regular";
+    src: url("/assets/fonts/Inter_24pt-Regular.ttf");
+}
+
+.cake_card {
+    background-color: #B15A98;
+    width: 340px;
+    height: 450px;
+    /* padding: 20px 20px 20px 20px; */
+    border-radius: 45px;
+    border-width: 20px;
+    border-style: solid;
+    border-color: #4F113D;
+    box-shadow: 0px 0px 16px 6px #FFB8EB;
+    /* align-items: center; */
+    display: flex;
+    flex-direction: column;
+}
+
+.cake_name {
+    color: white;
+    font-family: "Inter-Regular";
+    margin-top: -7%;
+    margin-left: 9%;
+    font-size: 30px;
+}
+
+.cake_price {
+    color: white;
+    font-family: "Inter-Regular";
+    font-size: 24px;
+    margin-left: 9%;
+    margin-top: 1%
+}
+
+.add_to_cart {
+    align-self: center;
+    width: 50px;
+    height: 50px;
+    margin-top: 1%;
+    border-radius: 30px;
+    border-style: none;
+    background-color: #FFB8EB;
+    font-family: "Inter-Regular";
+    font-size: 50px;
+    line-height: 0;
+    color: #4F113D;
+    padding-bottom: 6px;
+}
+
+.add_to_cart:hover {
+    background-color: #da8cc3;
+    cursor: pointer;
+    color: #3a0c2d;
+}
