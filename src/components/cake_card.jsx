@@ -7,7 +7,7 @@ function CakeCard(props) {
             <img src={props.image} alt={props.name} style={{ borderRadius: "20px", scale: "0.8" }} />
             <p className={styles.cake_name}>{props.name}</p>
             <p className={styles.cake_price}>{props.price}</p>
-            <button className={styles.add_to_cart}>+</button>
+            <button className={styles.add_to_cart} onClick={() => alert("Торт добавлен в корзину")}>+</button>
         </div>
     );
 }
