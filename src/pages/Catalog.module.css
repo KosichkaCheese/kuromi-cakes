@@ -3,8 +3,21 @@
     background-repeat: repeat;
     background-color: black;
     min-height: 100vh;
-    min-width: 100vw;
+    min-width: 100%;
     background-image: url("/assets/bg.jpg");
     display: flex;
     flex-direction: column;
+    background-attachment: fixed;
+}
+
+.catalog {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 345px);
+    justify-content: center;
+    margin-top: 4%;
+    margin-bottom: 10%;
+    gap: 60px;
+    width: 100%;
+    align-self: center;
+    /* background-color: aliceblue; */
 }

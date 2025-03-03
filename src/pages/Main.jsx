@@ -22,12 +22,6 @@ function Main() {
                     <CakeCard key={cake.id} image={cake.image} name={cake.name} price={cake.price} />
                 ))}
             </div>
-            {/* {cakes.map(cake => (
-                <div key={cake.id}>
-                    <h3>{cake.name}</h3>
-                    <p>{cake.price}</p>
-                </div>
-            ))} */}
         </div>
     );
 }

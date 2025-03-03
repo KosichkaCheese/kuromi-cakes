@@ -8,7 +8,7 @@
     background-repeat: repeat;
     background-color: black;
     min-height: 100vh;
-    min-width: 100vw;
+    min-width: 100%;
     background-image: url("/assets/bg.jpg");
     display: flex;
     flex-direction: column;
@@ -33,13 +33,12 @@
 
 .cakes {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* flex-direction: row; */
-    justify-content: space-around;
+    grid-template-columns: repeat(auto-fit, 345px);
+    justify-content: center;
     margin-top: 3%;
-    /* height: 400px; */
-    /* background-color: white; */
-    width: 1300px;
+    margin-bottom: 3%;
+    gap: 60px;
+    width: 80%;
     align-self: center;
 }
 
