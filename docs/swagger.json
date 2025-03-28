@@ -1,0 +1,172 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/ping": {
+            "get": {
+                "description": "Тестирование сервера",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "test"
+                ],
+                "summary": "тест сервера",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cake_api/cakes": {
+            "get": {
+                "description": "Возвращает список всех тортов из базы данных",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cakes"
+                ],
+                "summary": "Получить все торты",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Cake"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка сервера",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Добавляет новый торт в базу данных",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cakes"
+                ],
+                "summary": "Создание нового торта",
+                "parameters": [
+                    {
+                        "description": "Торт",
+                        "name": "cake",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Cake"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Cake"
+                        }
+                    },
+                    "400": {
+                        "description": "Ошибка при создании торта",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка сервера",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/cake_api/cakes/{id}": {
+            "get": {
+                "description": "Получает торт и бд по id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cakes"
+                ],
+                "summary": "Получение торта по id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID торта",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Cake"
+                        }
+                    },
+                    "400": {
+                        "description": "Ошибка при получении торта",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Ошибка сервера",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Cake": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "id",
+                    "type": "integer"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "name": {
+                    "description": "name",
+                    "type": "string"
+                },
+                "price": {
+                    "description": "price",
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
