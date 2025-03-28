@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_USER: kuromi
+      POSTGRES_PASSWORD: kuromi
+      POSTGRES_DB: kuromi-cake
+    ports:
+      - "5438:5432"
+
+  api:
+    build: .
+    container_name: kuromi_api
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://kuromi:kuromi@db:5432/kuromi-cake?sslmode=disable

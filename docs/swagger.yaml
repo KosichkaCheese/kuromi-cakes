@@ -1,0 +1,114 @@
+definitions:
+  models.Cake:
+    properties:
+      id:
+        description: id
+        type: integer
+      image:
+        type: string
+      name:
+        description: name
+        type: string
+      price:
+        description: price
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /api/ping:
+    get:
+      description: Тестирование сервера
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: тест сервера
+      tags:
+      - test
+  /cake_api/cakes:
+    get:
+      description: Возвращает список всех тортов из базы данных
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Cake'
+            type: array
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Получить все торты
+      tags:
+      - cakes
+    post:
+      consumes:
+      - application/json
+      description: Добавляет новый торт в базу данных
+      parameters:
+      - description: Торт
+        in: body
+        name: cake
+        required: true
+        schema:
+          $ref: '#/definitions/models.Cake'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Cake'
+        "400":
+          description: Ошибка при создании торта
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Создание нового торта
+      tags:
+      - cakes
+  /cake_api/cakes/{id}:
+    get:
+      description: Получает торт и бд по id
+      parameters:
+      - description: ID торта
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Cake'
+        "400":
+          description: Ошибка при получении торта
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Получение торта по id
+      tags:
+      - cakes
+swagger: "2.0"
