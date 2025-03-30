@@ -13,6 +13,19 @@ definitions:
         description: price
         type: integer
     type: object
+  models.CakePost:
+    properties:
+      image:
+        type: string
+      name:
+        description: name
+        type: string
+      price:
+        description: price
+        type: integer
+    required:
+    - name
+    type: object
 info:
   contact: {}
 paths:
@@ -61,7 +74,7 @@ paths:
         name: cake
         required: true
         schema:
-          $ref: '#/definitions/models.Cake'
+          $ref: '#/definitions/models.CakePost'
       produces:
       - application/json
       responses:
@@ -97,7 +110,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.Cake'
+            $ref: '#/definitions/models.CakePost'
         "400":
           description: Ошибка при получении торта
           schema:

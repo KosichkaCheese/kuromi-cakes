@@ -6,7 +6,7 @@
 .cake_card {
     background-color: #B15A98;
     width: 340px;
-    height: 450px;
+    min-height: 450px;
     /* padding: 20px 20px 20px 20px; */
     border-radius: 45px;
     border-width: 20px;
@@ -16,6 +16,7 @@
     /* align-items: center; */
     display: flex;
     flex-direction: column;
+    padding-bottom: 2%;
 }
 
 .cake_name {
@@ -47,6 +48,7 @@
     line-height: 0;
     color: #4F113D;
     padding-bottom: 6px;
+    /* margin-bottom: 6px; */
 }
 
 .add_to_cart:hover {

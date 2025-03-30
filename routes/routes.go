@@ -3,6 +3,7 @@ package routes
 import (
 	"kuromi_cakes/controller"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,6 +15,7 @@ import (
 // @Router /api/ping [get]
 func SetupRoutes(cakeController *controller.CakeController) *gin.Engine {
 	router := gin.Default()
+	router.Use(cors.Default())
 	api := router.Group("/cake_api")
 	{
 

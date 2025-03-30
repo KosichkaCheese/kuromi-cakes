@@ -86,7 +86,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Cake"
+                            "$ref": "#/definitions/models.CakePost"
                         }
                     }
                 ],
@@ -137,7 +137,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Cake"
+                            "$ref": "#/definitions/models.CakePost"
                         }
                     },
                     "400": {
@@ -166,6 +166,25 @@ const docTemplate = `{
                     "description": "id",
                     "type": "integer"
                 },
+                "image": {
+                    "type": "string"
+                },
+                "name": {
+                    "description": "name",
+                    "type": "string"
+                },
+                "price": {
+                    "description": "price",
+                    "type": "integer"
+                }
+            }
+        },
+        "models.CakePost": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
                 "image": {
                     "type": "string"
                 },
