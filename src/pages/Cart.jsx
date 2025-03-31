@@ -1,16 +1,44 @@
 import styles from "./Cart.module.css";
 import Header from "../components/header";
 import CartItem from "../components/cart_item";
-import { act, useState } from "react";
-
-const initCakes = [
-    { id: 2, image: "/assets/2.png", name: "Шоколадный торт", price: 1500, count: 1 },
-    { id: 3, image: "/assets/3.png", name: "Ванильный торт", price: 1400, count: 1 }
-];
+import useCart from "../components/UseCart";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function Cart() {
     const [active, setActive] = useState("pickup");
-    const [cakes, setCakes] = useState(initCakes);
+    const { cart, addToCart, removeFromCart, clearItem, clearCart } = useCart();
+    const [cakes, setCakes] = useState([]);
+
+    useEffect(() => {
+        async function fetchCakes() {
+            console.log(cart);
+            if (Object.keys(cart).length === 0) {
+                setCakes([]);
+                return;
+            }
+
+            try {
+                // Получаем данные о каждом товаре отдельно
+                const cakeRequests = Object.keys(cart).map(key =>
+                    axios.get(`http://localhost:8000/cake_api/cakes/${cart[key].id}`).then(res => ({
+                        ...res.data,
+                        count: cart[key].count
+                    }))
+                );
+
+                // Ждем выполнения всех запросов
+                const cakesData = await Promise.all(cakeRequests);
+                setCakes(cakesData);
+            } catch (error) {
+                console.error("Ошибка загрузки товаров:", error);
+            }
+            console.log(cakes);
+        }
+
+        fetchCakes();
+    }, [cart]);
+
 
     const updateCount = (id, newCount) => {
         setCakes(prevCakes =>
@@ -43,7 +71,15 @@ function Cart() {
             </div>
             <div className={styles.items}>
                 {cakes.map(cake => (
-                    <CartItem key={cake.id} {...cake} updateCount={updateCount} />
+                    <CartItem key={cake.id}
+                        id={cake.id}
+                        image={"assets/" + cake.image}
+                        name={cake.name}
+                        price={cake.price}
+                        count={cake.count}
+                        addToCart={addToCart}
+                        removeFromCart={removeFromCart}
+                        clearItem={clearItem} />
                 ))}
             </div>
             <div style={{ display: "flex", flexDirection: "column", marginBottom: "5%", marginTop: "2%", width: "75%", alignSelf: "center" }}>

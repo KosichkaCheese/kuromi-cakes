@@ -31,7 +31,7 @@ function Catalog() {
             <Header />
             <div className={styles.catalog}>
                 {cakes.map(cake => (
-                    <CakeCard key={cake.id} image={"assets/" + cake.image} name={cake.name} price={cake.price} />
+                    <CakeCard key={cake.id} id={cake.id} image={"assets/" + cake.image} name={cake.name} price={cake.price} />
                 ))}
             </div>
         </div>
