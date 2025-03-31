@@ -1,46 +1,60 @@
-import { useState, useEffect } from "react";
+// CartContext.js
+import { createContext, useContext, useState, useEffect } from "react";
 
-function useCart() {
-    const [cart, setCart] = useState(() => {
-        const savedCart = sessionStorage.getItem("cart");
-        console.log("Loaded cart from sessionStorage", savedCart);
-        return savedCart ? JSON.parse(savedCart) : [];
-    });
+const CartContext = createContext();
 
-    useEffect(() => {
-        sessionStorage.setItem("cart", JSON.stringify(cart));
-    }, [cart]);
+export const CartProvider = ({ children }) => {
+  const [cart, setCart] = useState(() => {
+    const savedCart = sessionStorage.getItem("cart");
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
 
-    const addToCart = (id) => {
-        setCart((prevCart) => {
-            const existingItem = prevCart.find(item => item.id === id);
-            if (existingItem) {
-                return prevCart.map(item =>
-                    item.id === id ? { ...item, count: item.count + 1 } : item
-                );
-            } else {
-                return [...prevCart, { id, count: 1 }];
-            }
-        });
-    };
+  useEffect(() => {
+    sessionStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
-    const removeFromCart = (id) => {
-        setCart((prevCart) =>
-            prevCart.map((item) =>
-                item.id === id ? { ...item, count: item.count - 1 } : item
-            )
+  const addToCart = (id) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item.id === id);
+      if (existingItem) {
+        return prevCart.map((item) =>
+          item.id === id ? { ...item, count: item.count + 1 } : item
         );
-    };
+      }
+      return [...prevCart, { id, count: 1 }];
+    });
+  };
 
-    const clearItem = (id) => {
-        setCart((prevCart) => prevCart.filter((item) => item.id !== id));
-    };
+  const removeFromCart = (id) => {
+    setCart((prevCart) => {
+      const existingItem = prevCart.find((item) => item.id === id);
+      if (!existingItem) return prevCart;
 
-    const clearCart = () => {
-        setCart([]);
-    };
+      if (existingItem.count > 1) {
+        return prevCart.map((item) =>
+          item.id === id ? { ...item, count: item.count - 1 } : item
+        );
+      } else {
+        return prevCart.filter((item) => item.id !== id);
+      }
+    });
+  };
 
-    return { cart, addToCart, removeFromCart, clearItem, clearCart };
+  const clearItem = (id) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== id));
+  };
+
+  const clearCart = () => {
+    setCart([]);
+  };
+
+  return (
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, clearItem, clearCart }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
 };
 
-export default useCart;
+export const useCart = () => useContext(CartContext);
