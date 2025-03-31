@@ -65,7 +65,7 @@ func (ctrl *CakeController) GetCakeById(c *gin.Context) {
 // @Tags cakes
 // @Accept  json
 // @Produce json
-// @Param cake body models.Cake true "Торт"
+// @Param cake body models.CakePost true "Торт"
 // @Success 200 {object} models.Cake
 // @Failure 400 {object} map[string]interface{}"Ошибка при создании торта"
 // @Failure 500 {object} map[string]interface{}"Ошибка сервера"

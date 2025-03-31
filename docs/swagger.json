@@ -75,7 +75,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Cake"
+                            "$ref": "#/definitions/models.CakePost"
                         }
                     }
                 ],
@@ -126,7 +126,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.Cake"
+                            "$ref": "#/definitions/models.CakePost"
                         }
                     },
                     "400": {
@@ -155,6 +155,25 @@
                     "description": "id",
                     "type": "integer"
                 },
+                "image": {
+                    "type": "string"
+                },
+                "name": {
+                    "description": "name",
+                    "type": "string"
+                },
+                "price": {
+                    "description": "price",
+                    "type": "integer"
+                }
+            }
+        },
+        "models.CakePost": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
                 "image": {
                     "type": "string"
                 },

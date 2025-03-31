@@ -1,16 +1,24 @@
 import React, { useState } from "react"
 import styles from "./cart_item.module.css"
 
-function CartItem({ id, image, name, price, count, updateCount }) {
+function CartItem({ id, image, name, price, count, addToCart, removeFromCart, clearItem }) {
+    const handleDecrease = () => {
+        if (count <= 1) {
+            clearItem(id);  // Если количество меньше или равно 1, удаляем товар из корзины
+        } else {
+            removeFromCart(id);  // Иначе просто уменьшаем количество
+        }
+    };
+
     return (
         <div className={styles.bg}>
             <img src={image} style={{ borderRadius: "20px", scale: "0.6" }} alt={name} />
             <p className={styles.name}>{name}</p>
             <p className={styles.price}>{price}₽</p>
             <div className={styles.cake_counter}>
-                <button className={styles.counter_button} onClick={() => updateCount(id, count + 1)}>▲</button>
+                <button className={styles.counter_button} onClick={() => addToCart(id)}>▲</button>
                 <span className={styles.counter_number}>{count}</span>
-                <button className={styles.counter_button} onClick={() => count > 1 && updateCount(id, count - 1)}>▼</button>
+                <button className={styles.counter_button} onClick={handleDecrease}>▼</button>
             </div>
         </div>
     );
