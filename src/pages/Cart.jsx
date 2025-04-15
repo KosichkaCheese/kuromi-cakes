@@ -1,6 +1,7 @@
 import styles from "./Cart.module.css";
 import Header from "../components/header";
 import CartItem from "../components/cart_item";
+import ModalForm from "../components/modal";
 import { useCart } from "../components/UseCart";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -9,6 +10,7 @@ function Cart() {
   const [active, setActive] = useState("pickup");
   const { cart, addToCart, removeFromCart, clearItem, clearCart } = useCart();
   const [cakes, setCakes] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     async function fetchCakes() {
@@ -50,17 +52,15 @@ function Cart() {
       <div style={{ alignSelf: "center", marginTop: "2%" }}>
         <div className={styles.switch}>
           <button
-            className={`${styles.option} ${
-              active === "pickup" ? styles.active : ""
-            }`}
+            className={`${styles.option} ${active === "pickup" ? styles.active : ""
+              }`}
             onClick={() => setActive("pickup")}
           >
             САМОВЫВОЗ
           </button>
           <button
-            className={`${styles.option} ${
-              active === "delivery" ? styles.active : ""
-            }`}
+            className={`${styles.option} ${active === "delivery" ? styles.active : ""
+              }`}
             onClick={() => setActive("delivery")}
           >
             ДОСТАВКА
@@ -95,14 +95,18 @@ function Cart() {
         <p className={styles.total}>Итого: {totalPrice}₽</p>
         <button
           className={styles.continue}
-          onClick={() =>
-            active === "pickup"
-              ? alert("Заказ на самовывоз оформлен")
-              : alert("Заказ на доставку оформлен")
-          }
+          onClick={() => setShowModal(true)}
         >
           Продолжить
         </button>
+        {showModal && (
+          <ModalForm
+            type={active}
+            cakes={cakes}
+            totalPrice={totalPrice}
+            onClose={() => setShowModal(false)}
+          />
+        )}
       </div>
     </div>
   );

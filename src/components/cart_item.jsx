@@ -12,7 +12,7 @@ function CartItem({ id, image, name, price, count, addToCart, removeFromCart, cl
 
     return (
         <div className={styles.bg}>
-            <img src={image} style={{ borderRadius: "20px", scale: "0.6" }} alt={name} />
+            <img src={image} style={{ borderRadius: "20px", objectfit: "contain", height: "150px", width: "150px" }} alt={name} />
             <p className={styles.name}>{name}</p>
             <p className={styles.price}>{price}₽</p>
             <div className={styles.cake_counter}>

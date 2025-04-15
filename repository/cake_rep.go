@@ -10,6 +10,8 @@ type CakeRepository interface {
 	GetAllCakes() ([]models.Cake, error)
 	GetCakeById(id int) (models.Cake, error)
 	CreateCake(cake models.Cake) (models.Cake, error)
+	DeleteCake(id int) error
+	UpdateCake(cake models.Cake) (models.Cake, error)
 }
 
 type cakeRepository struct {
@@ -37,5 +39,15 @@ func (r *cakeRepository) GetCakeById(id int) (models.Cake, error) {
 // Создание нового торта
 func (r *cakeRepository) CreateCake(cake models.Cake) (models.Cake, error) {
 	err := r.DB.Create(&cake).Error
+	return cake, err
+}
+
+func (r *cakeRepository) DeleteCake(id int) error {
+	err := r.DB.Where("id = ?", id).Delete(&models.Cake{}).Error
+	return err
+}
+
+func (r *cakeRepository) UpdateCake(cake models.Cake) (models.Cake, error) {
+	err := r.DB.Updates(&cake).Error
 	return cake, err
 }

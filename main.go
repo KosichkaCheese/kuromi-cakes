@@ -25,7 +25,11 @@ func main() {
 	cakeService := service.NewCakeService(cakeRepo)
 	cakeController := controller.NewCakeController(cakeService)
 
-	router := routes.SetupRoutes(cakeController)
+	orderRepo := repository.NewOrderRepository(db)
+	orderService := service.NewOrderService(orderRepo)
+	orderController := controller.NewOrderController(orderService)
+
+	router := routes.SetupRoutes(cakeController, orderController)
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.Run(":8000")

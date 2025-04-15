@@ -11,7 +11,7 @@ definitions:
         type: string
       price:
         description: price
-        type: integer
+        type: number
     type: object
   models.CakePost:
     properties:
@@ -22,9 +22,93 @@ definitions:
         type: string
       price:
         description: price
-        type: integer
+        type: number
     required:
     - name
+    type: object
+  models.DeliveryType:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.Order:
+    properties:
+      address:
+        type: string
+      createdAt:
+        type: string
+      delivery_type:
+        $ref: '#/definitions/models.DeliveryType'
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      payment_type:
+        $ref: '#/definitions/models.PaymentType'
+      phone:
+        type: string
+      price:
+        type: number
+    type: object
+  models.OrderContent:
+    properties:
+      cake:
+        $ref: '#/definitions/models.Cake'
+      cake_id:
+        type: integer
+      order_id:
+        type: integer
+      quantity:
+        type: integer
+    type: object
+  models.OrderContentPost:
+    properties:
+      items:
+        items:
+          properties:
+            cake_id:
+              type: integer
+            quantity:
+              minimum: 1
+              type: integer
+          required:
+          - cake_id
+          - quantity
+          type: object
+        type: array
+      order_id:
+        type: integer
+    required:
+    - items
+    - order_id
+    type: object
+  models.OrderPost:
+    properties:
+      address:
+        type: string
+      delivery_type_id:
+        type: integer
+      email:
+        type: string
+      name:
+        type: string
+      payment_type_id:
+        type: integer
+      phone:
+        type: string
+      price:
+        type: number
+    type: object
+  models.PaymentType:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
     type: object
 info:
   contact: {}
@@ -95,9 +179,45 @@ paths:
       summary: Создание нового торта
       tags:
       - cakes
+    put:
+      consumes:
+      - application/json
+      description: Изменяет торт в бд
+      parameters:
+      - description: Торт
+        in: body
+        name: cake
+        required: true
+        schema:
+          $ref: '#/definitions/models.Cake'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Cake'
+        "400":
+          description: Ошибка при создании торта
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Торт не найден
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Изменение торта
+      tags:
+      - cakes
   /cake_api/cakes/{id}:
-    get:
-      description: Получает торт и бд по id
+    delete:
+      description: Удаляет торт из бд по id
       parameters:
       - description: ID торта
         in: path
@@ -110,9 +230,47 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.CakePost'
+            $ref: '#/definitions/models.Cake'
         "400":
           description: Ошибка при получении торта
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Торт не найден
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Удаление торта по id
+      tags:
+      - cakes
+    get:
+      description: Получает торт из бд по id
+      parameters:
+      - description: ID торта
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Cake'
+        "400":
+          description: Ошибка при получении торта
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Торт не найден
           schema:
             additionalProperties: true
             type: object
@@ -124,4 +282,348 @@ paths:
       summary: Получение торта по id
       tags:
       - cakes
+  /cake_api/order_content:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Данные заказа
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.OrderContentPost'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Ошибка запроса
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Добавить торты в заказ
+      tags:
+      - OrderContent
+  /cake_api/order_content/{orderID}:
+    get:
+      parameters:
+      - description: ID заказа
+        in: path
+        name: orderID
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.OrderContent'
+            type: array
+        "400":
+          description: Ошибка запроса
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Заказ не найден
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Получение содержимого заказа
+      tags:
+      - OrderContent
+  /cake_api/orders:
+    get:
+      description: Возвращает список всех заказов из базы данных
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Order'
+            type: array
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Получить все заказы
+      tags:
+      - orders
+    post:
+      consumes:
+      - application/json
+      description: Добавляет новый заказ в базу данных
+      parameters:
+      - description: Заказ
+        in: body
+        name: order
+        required: true
+        schema:
+          $ref: '#/definitions/models.OrderPost'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+        "400":
+          description: Ошибка при создании заказа
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Создание нового заказа
+      tags:
+      - orders
+  /cake_api/orders/{id}:
+    delete:
+      description: Удаляет заказ из бд по id
+      parameters:
+      - description: ID заказа
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+        "400":
+          description: Ошибка при получении заказа
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Заказ не найден
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Удаление заказа по id
+      tags:
+      - orders
+    get:
+      description: Получает заказ из бд по id
+      parameters:
+      - description: ID заказа
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Order'
+        "400":
+          description: Ошибка при получении заказа
+          schema:
+            additionalProperties: true
+            type: object
+        "404":
+          description: Заказ не найден
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Получение заказа по id
+      tags:
+      - orders
+  /cake_api/orders/delivery:
+    get:
+      description: Возвращает список всех способов доставки из базы данных
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.DeliveryType'
+            type: array
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Получение всех способов доставки
+      tags:
+      - orders
+    post:
+      consumes:
+      - application/json
+      description: Добавляет способ доставки в базу данных
+      parameters:
+      - description: Название способа доставки
+        in: body
+        name: delivery
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Ошибка при добавлении способа доставки
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Добавление способа доставки
+      tags:
+      - orders
+  /cake_api/orders/delivery/{id}:
+    delete:
+      description: Удаляет способ доставки из бд по id
+      parameters:
+      - description: ID способа доставки
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.DeliveryType'
+        "400":
+          description: Ошибка при получении способа доставки
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Удаление способа доставки по id
+      tags:
+      - orders
+  /cake_api/orders/payment:
+    get:
+      description: Возвращает список всех способов оплаты из базы данных
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.PaymentType'
+            type: array
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Получение всех способов оплаты
+      tags:
+      - orders
+    post:
+      consumes:
+      - application/json
+      description: Добавляет способ оплаты в базу данных
+      parameters:
+      - description: Название способа оплаты
+        in: body
+        name: payment
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Ошибка при добавлении способа оплаты
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Добавление способа оплаты
+      tags:
+      - orders
+  /cake_api/orders/payment/{id}:
+    delete:
+      description: Удаляет способ оплаты из бд по id
+      parameters:
+      - description: ID способа оплаты
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PaymentType'
+        "400":
+          description: Ошибка при получении способа оплаты
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Удаление способа оплаты по id
+      tags:
+      - orders
 swagger: "2.0"
