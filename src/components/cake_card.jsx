@@ -18,6 +18,7 @@ function CakeCard(props) {
         className={styles.add_to_cart}
         onClick={() => {
           addToCart(props.id);
+          alert(props.name + " добавлен в корзину");
         }}
       >
         +

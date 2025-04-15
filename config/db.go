@@ -21,5 +21,5 @@ func ConnectDB() {
 
 	log.Println("Connected to database")
 
-	DB.AutoMigrate(&models.Cake{})
+	DB.AutoMigrate(&models.Cake{}, &models.Order{}, &models.DeliveryType{}, &models.PaymentType{}, &models.OrderContent{})
 }

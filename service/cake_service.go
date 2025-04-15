@@ -9,6 +9,8 @@ type CakeService interface {
 	GetAllCakes() ([]models.Cake, error)
 	GetCakeById(id int) (models.Cake, error)
 	CreateCake(cake models.Cake) (models.Cake, error)
+	DeleteCake(id int) error
+	UpdateCake(cake models.Cake) (models.Cake, error)
 }
 
 type cakeService struct {
@@ -32,4 +34,12 @@ func (s *cakeService) GetCakeById(id int) (models.Cake, error) {
 // Создание нового торта
 func (s *cakeService) CreateCake(cake models.Cake) (models.Cake, error) {
 	return s.repo.CreateCake(cake)
+}
+
+func (s *cakeService) DeleteCake(id int) error {
+	return s.repo.DeleteCake(id)
+}
+
+func (s *cakeService) UpdateCake(cake models.Cake) (models.Cake, error) {
+	return s.repo.UpdateCake(cake)
 }
